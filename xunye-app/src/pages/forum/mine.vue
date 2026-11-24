@@ -1,0 +1,2 @@
+<template><view class="m2-page"><text class="m2-muted">待审、通过及未通过的帖子均在这里查看。只有已通过内容对其他书友可见。</text><ForumFeed ref="feed" :mine="true" /></view></template>
+<script>import ForumFeed from '../../components/ForumFeed.vue';import { requireLogin } from '../../utils/auth';export default{components:{ForumFeed},onShow(){if(requireLogin())this.$nextTick(()=>this.$refs.feed?.refresh())},onReachBottom(){if(this.$refs.feed?.hasMore)this.$refs.feed.load()}}</script>

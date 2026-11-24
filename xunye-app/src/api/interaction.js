@@ -1,0 +1,15 @@
+import { get, post, del } from '../utils/request'
+export const getComments = (data) => get('/api/app/comments', data)
+export const addComment = (data) => post('/api/app/interaction/comments', data)
+export const deleteComment = (id) => del(`/api/app/interaction/comments/${id}`)
+export const likeComment = (id, liked) => liked ? del(`/api/app/interaction/comments/${id}/like`) : post(`/api/app/interaction/comments/${id}/like`)
+export const getPosts = (mine, data) => get(mine ? '/api/app/interaction/forum/mine' : '/api/app/forum/posts', data)
+export const getPost = (id) => get(`/api/app/forum/posts/${id}`)
+export const addPost = (data) => post('/api/app/interaction/forum/posts', data)
+export const deletePost = (id) => del(`/api/app/interaction/forum/posts/${id}`)
+export const getReplies = (id, data) => get(`/api/app/forum/posts/${id}/replies`, data)
+export const addReply = (id, content) => post(`/api/app/interaction/forum/posts/${id}/replies`, { content })
+export const deleteReply = (id) => del(`/api/app/interaction/forum/replies/${id}`)
+
+export const likePost = (id, liked) => liked ? del(`/api/app/interaction/forum/posts/${id}/like`) : post(`/api/app/interaction/forum/posts/${id}/like`)
+export const likeReply = (id, liked) => liked ? del(`/api/app/interaction/forum/replies/${id}/like`) : post(`/api/app/interaction/forum/replies/${id}/like`)

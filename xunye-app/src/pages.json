@@ -1,0 +1,128 @@
+{
+  "pages": [
+    {
+      "path": "pages/home/index",
+      "style": {
+        "navigationBarTitleText": "寻页",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/shelf/index",
+      "style": {
+        "navigationBarTitleText": "书架"
+      }
+    },
+    {
+      "path": "pages/mine/index",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/book/list",
+      "style": {
+        "navigationBarTitleText": "书籍列表"
+      }
+    },
+    {
+      "path": "pages/book/detail",
+      "style": {
+        "navigationBarTitleText": "书籍详情"
+      }
+    },
+    {
+      "path": "pages/book/chapters",
+      "style": {
+        "navigationBarTitleText": "章节目录"
+      }
+    },
+    {
+      "path": "pages/reader/index",
+      "style": {
+        "navigationBarTitleText": "阅读",
+        "navigationBarBackgroundColor": "#f5f1e8",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/auth/index",
+      "style": {
+        "navigationBarTitleText": "登录寻页"
+      }
+    },
+    {
+      "path": "pages/forum/index",
+      "style": {
+        "navigationBarTitleText": "找书社区",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/forum/mine",
+      "style": {
+        "navigationBarTitleText": "我的帖子"
+      }
+    },
+    {
+      "path": "pages/forum/compose",
+      "style": {
+        "navigationBarTitleText": "发布帖子"
+      }
+    },
+    {
+      "path": "pages/forum/detail",
+      "style": {
+        "navigationBarTitleText": "帖子详情"
+      }
+    },
+    {
+      "path": "pages/wallet/index",
+      "style": {
+        "navigationBarTitleText": "我的钱包"
+      }
+    },
+    {
+      "path": "pages/wallet/flows",
+      "style": {
+        "navigationBarTitleText": "收支明细"
+      }
+    },
+    {
+      "path": "pages/wallet/tip",
+      "style": {
+        "navigationBarTitleText": "支持作者"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "寻页",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f8f8f9"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#c2543a",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "书城"
+      },
+      {
+        "pagePath": "pages/shelf/index",
+        "text": "书架"
+      },
+      {
+        "pagePath": "pages/forum/index",
+        "text": "社区"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的"
+      }
+    ]
+  }
+}
