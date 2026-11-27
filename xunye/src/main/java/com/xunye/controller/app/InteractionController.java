@@ -1,4 +1,5 @@
 package com.xunye.controller.app;
+import com.xunye.constant.AuthConstant;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xunye.common.*;
 import com.xunye.dto.req.*;
@@ -158,5 +159,5 @@ public class InteractionController {
     public Result<Long> unlikeReply(@PathVariable Long id){return Result.ok(service.likeReply(UserContext.getUserId(),id,false));}
 
     /** 评论、帖子、回复共用每用户每分钟10次发布额度，防止高频灌水。 */
-    private void limit(){rate.rateLimit("publish:"+UserContext.getUserId(),10,60);}
+    private void limit(){rate.rateLimit("publish:"+UserContext.getUserId(),AuthConstant.PUBLISH_LIMIT,AuthConstant.PUBLISH_WINDOW_SECONDS);}
 }

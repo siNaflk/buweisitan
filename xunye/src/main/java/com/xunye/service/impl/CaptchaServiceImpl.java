@@ -1,4 +1,5 @@
 package com.xunye.service.impl;
+import com.xunye.constant.AuthConstant;
 import com.xunye.constant.RedisKeyConstant;
 import com.xunye.enums.ErrorCode;
 import com.xunye.exception.BizException;
@@ -51,7 +52,7 @@ public class CaptchaServiceImpl implements CaptchaService {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ImageIO.write(image,"png",out);
             // 以captchaId为键保存正确答案；接口返回值绝不包含明文答案字段。
-            redis.opsForValue().set(RedisKeyConstant.IMG_VERIFY_CODE+id, code, Duration.ofMinutes(5));
+            redis.opsForValue().set(RedisKeyConstant.IMG_VERIFY_CODE+id, code, Duration.ofMinutes(AuthConstant.CAPTCHA_TTL_MINUTES));
             return Map.of("captchaId",id,"image","data:image/png;base64,"+Base64.getEncoder().encodeToString(out.toByteArray()));
         } catch (java.io.IOException e) {
             throw new IllegalStateException("验证码生成失败",e);
@@ -82,7 +83,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     public void rateLimit(String key, int limit, int seconds) {
         Long count = redis.execute(new DefaultRedisScript<>(
             "local n=redis.call('incr',KEYS[1]); " + "if n==1 " + "then redis.call('expire',KEYS[1],ARGV[1]); " + "end; return n", Long.class),
-            java.util.List.of("Cache::XunYe::rate::"+key), String.valueOf(seconds));
+            java.util.List.of(RedisKeyConstant.RATE_LIMIT+key), String.valueOf(seconds));
         if (count == null || count > limit) throw new BizException(429,"操作太频繁，请稍后再试");
     }
 }

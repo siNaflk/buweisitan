@@ -89,6 +89,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<ChapterBriefRespDto> chapters(Long bookId) {
         checkBookOnline(bookId);
+        Book book = bookMapper.selectById(bookId);
+        boolean exclusive = Integer.valueOf(1).equals(book.getIsVipLibrary());
         List<BookChapter> chapters = chapterMapper.selectList(new LambdaQueryWrapper<BookChapter>()
                 .eq(BookChapter::getBookId, bookId)
                 .eq(BookChapter::getAuditStatus, 1)
@@ -96,6 +98,7 @@ public class BookServiceImpl implements BookService {
         return chapters.stream().map(chapter -> {
             ChapterBriefRespDto dto = new ChapterBriefRespDto();
             BeanUtils.copyProperties(chapter, dto);
+            dto.setVipLibrary(exclusive);
             return dto;
         }).toList();
     }

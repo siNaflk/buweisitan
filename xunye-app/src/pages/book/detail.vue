@@ -11,7 +11,7 @@
         <text class="title">{{ book.title }}</text>
         <text class="author">{{ book.authorName }}</text>
         <view class="tags">
-          <text class="tag vip" v-if="Number(book.isVipLibrary) === 1">会员书库</text>
+          <text class="tag vip" v-if="Number(book.isVipLibrary) === 1">会员专属</text>
           <text class="tag" :class="Number(book.status) === 1 ? 'grey' : 'red'">
             {{ Number(book.status) === 1 ? '完本' : '连载中' }}
           </text>

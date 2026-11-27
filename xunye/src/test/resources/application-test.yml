@@ -4,6 +4,8 @@ spring:
     username: sa
     password: ''
 xunye:
+  mq:
+    enabled: false
   stats:
     redis-enabled: false
   jwt:

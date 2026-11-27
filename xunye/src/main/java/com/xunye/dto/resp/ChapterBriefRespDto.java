@@ -20,6 +20,8 @@ public class ChapterBriefRespDto implements Serializable {
 
     /** 1 免费 / 0 付费 */
     private Integer isFree;
+    /** 会员专属目录全部展示专属标识，不能仅凭isFree显示免费。 */
+    private Boolean vipLibrary;
 
     /** 付费价格（分） */
     private Long price;

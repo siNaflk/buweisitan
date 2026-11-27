@@ -1,4 +1,5 @@
 package com.xunye.service.impl;
+import com.xunye.constant.RedisKeyConstant;
 import com.xunye.dao.UserMapper;
 import com.xunye.entity.User;
 import com.xunye.enums.ErrorCode;
@@ -77,7 +78,7 @@ public class AuthSessionServiceImpl implements AuthSessionService {
     /** Redis键保存token的SHA-256摘要，而非完整登录凭证，减少原始令牌暴露。 */
     private String blackKey(String token) {
         try {
-            return "Cache::XunYe::token:black::" + HexFormat.of().formatHex(
+            return RedisKeyConstant.TOKEN_BLACKLIST + HexFormat.of().formatHex(
                 MessageDigest.getInstance("SHA-256").digest(token.getBytes(StandardCharsets.UTF_8)));
         } catch (java.security.NoSuchAlgorithmException e) { throw new IllegalStateException(e); }
     }

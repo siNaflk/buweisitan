@@ -20,7 +20,7 @@ public class BalanceFlow extends BaseEntity {
     /** 用户 ID（作者收益记在作者账户下） */
     private Long userId;
 
-    /** 1 充值 / 2 购章支出 / 3 打赏支出 / 4 打赏收益 / 5 购章分成收益 / 6 管理员调整 */
+    /** 1 充值 / 2 购章支出 / 3 打赏支出 / 4 打赏收益 / 5 购章分成收益 / 6 管理员调整 / 7 VIP订阅支出 */
     private Integer type;
 
     /** 变动金额（恒为正数，方向由 type 决定） */

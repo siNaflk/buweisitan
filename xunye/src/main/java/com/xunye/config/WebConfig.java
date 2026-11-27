@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
         // M2增加/interaction保护评论写入与论坛个人操作；公开读取路径由Service控制可见范围。
         // 用户域与互动写接口需要登录；验证码、注册和登录明确排除在拦截范围外
         registry.addInterceptor(jwtAuthInterceptor)
-                .addPathPatterns("/api/app/user/**", "/api/app/interaction/**", "/api/app/wallet", "/api/app/wallet/**", "/api/app/chapter/buy/**", "/api/app/book/tip/**")
-                .excludePathPatterns("/api/app/user/login", "/api/app/user/register", "/api/app/user/captcha");
+                .addPathPatterns("/api/app/user/**", "/api/app/interaction/**", "/api/app/wallet", "/api/app/wallet/**", "/api/app/chapter/buy/**", "/api/app/book/tip/**", "/api/app/vip/**", "/api/app/notifications", "/api/app/notifications/**")
+                .excludePathPatterns("/api/app/user/login", "/api/app/user/register", "/api/app/user/captcha", "/api/app/vip/plans", "/api/app/vip/library");
     }
 }

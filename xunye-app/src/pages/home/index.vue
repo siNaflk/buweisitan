@@ -79,7 +79,7 @@ export default {
     }
   },
   computed: {
-    rankTabs() { return [{ key: 'hot', title: '热门榜' }, { key: 'vipLibrary', title: '会员书库' }, { key: 'newest', title: '最新上架' }] },
+    rankTabs() { return [{ key: 'hot', title: '热门榜' }, { key: 'vipLibrary', title: '会员专属' }, { key: 'newest', title: '最新上架' }] },
     activeBooks() { return (this[this.activeRank] || []).slice(0, 3) },
     featuredBooks() {
       const seen = new Set()

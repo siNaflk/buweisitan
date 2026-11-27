@@ -22,6 +22,10 @@
     </properties>
 
     <dependencies>
+        <!-- M4 RocketMQ官方客户端：普通通知 + 定时订单消息；阅读事件不接入MQ。 -->
+        <dependency><groupId>org.apache.rocketmq</groupId><artifactId>rocketmq-client</artifactId><version>5.3.0</version>
+            <exclusions><exclusion><groupId>commons-logging</groupId><artifactId>commons-logging</artifactId></exclusion></exclusions>
+        </dependency>
         <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,6 +122,9 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><version>${lombok.version}</version></path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

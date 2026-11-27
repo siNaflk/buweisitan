@@ -9,6 +9,10 @@ spring:
     generator:
       # Long 序列化为字符串，避免前端 JS 精度丢失（id 与金额都是 Long）
       write-numbers-as-strings: true
+  task:
+    scheduling:
+      pool:
+        size: 3
   servlet:
     multipart:
       max-file-size: 5MB
@@ -43,6 +47,9 @@ xunye:
       - http://127.0.0.1:1026
       # 管理端前端预留
       - http://localhost:5173
+  mq:
+    enabled: ${XUNYE_MQ_ENABLED:true}
+    nameserver: ${ROCKETMQ_NAMESERVER:127.0.0.1:9876}
   payment:
     simulated-enabled: ${SIMULATED_PAYMENT_ENABLED:true}
     author-share-percent: 50 # M3默认购章分成50%，打赏100%入作者余额

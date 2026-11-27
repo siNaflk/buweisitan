@@ -46,7 +46,7 @@
           <text class="item-author ellipsis-1">{{ book.authorName }} · {{ categoryName(book) }}</text>
           <text class="item-intro ellipsis-2">{{ book.intro || '暂无简介' }}</text>
           <view class="item-meta">
-            <text class="meta-tag" v-if="Number(book.isVipLibrary) === 1">会员书库</text>
+            <text class="meta-tag" v-if="Number(book.isVipLibrary) === 1">会员专属</text>
             <text class="meta-tag grey" v-else-if="Number(book.status) === 1">完本</text>
             <text class="meta-text">{{ formatWordCount(book.wordCount) }}字</text>
             <text class="meta-text">{{ Number(book.visitCount) }}点击</text>

@@ -1,4 +1,5 @@
 package com.xunye.service.impl;
+import com.xunye.constant.RedisKeyConstant;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.xunye.dao.BookMapper;
 import com.xunye.entity.Book;
@@ -19,7 +20,7 @@ import java.util.List;
 // @Slf4j：Lombok生成log日志对象，供log.warn等语句记录运行情况。
 @Slf4j
 public class BookVisitServiceImpl implements BookVisitService {
-    private static final String KEY="Cache::XunYe::visit:pending";
+    private static final String KEY=RedisKeyConstant.VISIT_PENDING;
     private final StringRedisTemplate redis;
     private final BookMapper books;
     // @Value：读取配置 xunye.stats.redis-enabled，未配置时使用 true。
@@ -29,7 +30,10 @@ public class BookVisitServiceImpl implements BookVisitService {
     @Override
     public void record(Long id) {
         if(enabled) {
-            try {redis.opsForHash().increment(KEY,id.toString(),1);return;}
+            try {
+                redis.opsForHash().increment(KEY,id.toString(),1);
+                return;
+            }
             catch(org.springframework.dao.DataAccessException e){log.warn("浏览量计数Redis不可用，回退数据库");}
         }
         increment(id,1);
@@ -44,9 +48,12 @@ public class BookVisitServiceImpl implements BookVisitService {
             for(Object field:redis.opsForHash().keys(KEY)) {
                 String id=field.toString();
                 Long count=redis.execute(new DefaultRedisScript<>("local v=redis.call('hget',KEYS[1],ARGV[1]); redis.call('hdel',KEYS[1],ARGV[1]); return tonumber(v) or 0",Long.class),List.of(KEY),id);
-                if(count==null || count<=0)continue;
+                if(count<=0)continue;
                 try {increment(Long.valueOf(id),count);}
-                catch(RuntimeException e){redis.opsForHash().increment(KEY,id,count);log.warn("浏览量写入失败，计数已归还",e);}
+                catch(RuntimeException e){
+                    redis.opsForHash().increment(KEY,id,count);
+                    log.warn("浏览量写入失败，计数已归还",e);
+                }
             }
         }catch(RuntimeException e){log.warn("浏览量汇总暂不可用，下次重试",e);}
     }

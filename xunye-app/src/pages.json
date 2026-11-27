@@ -93,6 +93,24 @@
       "style": {
         "navigationBarTitleText": "支持作者"
       }
+    },
+    {
+      "path": "pages/vip/index",
+      "style": {
+        "navigationBarTitleText": "VIP会员"
+      }
+    },
+    {
+      "path": "pages/vip/library",
+      "style": {
+        "navigationBarTitleText": "会员专属"
+      }
+    },
+    {
+      "path": "pages/notifications/index",
+      "style": {
+        "navigationBarTitleText": "我的消息"
+      }
     }
   ],
   "globalStyle": {

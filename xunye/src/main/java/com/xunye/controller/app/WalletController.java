@@ -51,6 +51,7 @@ public class WalletController {
     public Result<RechargeOrderRespDto> order(@PathVariable Long id){
         return Result.ok(wallet.order(UserContext.getUserId(),id));
     }
+
     /** 比赛演示入口，明确标注模拟支付，不接收客户端提供的支付金额。 */
     // 接口：POST /api/app/wallet/recharge/{id}/simulate-payment；由Spring根据HTTP方法和路径匹配到下方方法。
     // @PathVariable：读取URL路径中的资源ID，例如{id}；它不是当前登录用户ID。
@@ -58,6 +59,7 @@ public class WalletController {
     public Result<RechargeOrderRespDto> pay(@PathVariable Long id){
         return Result.ok(wallet.simulatePayment(UserContext.getUserId(),id));
     }
+
     // 接口：POST /api/app/chapter/buy/{id}；由Spring根据HTTP方法和路径匹配到下方方法。
     // @PathVariable：读取URL路径中的资源ID，例如{id}；它不是当前登录用户ID。
     // @RequestBody：将请求体JSON转换为DTO；@Valid触发DTO上的非空、长度、金额范围等校验。

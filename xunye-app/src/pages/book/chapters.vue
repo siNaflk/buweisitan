@@ -19,7 +19,8 @@
           <text class="chapter-title ellipsis-1">{{ ch.title }}</text>
           <text class="chapter-meta">{{ ch.wordCount }}字 · {{ ch.sort }}</text>
         </view>
-        <text v-if="Number(ch.isFree) === 1" class="chapter-tag free">免费</text>
+        <text v-if="ch.vipLibrary" class="chapter-tag paid">会员专属</text>
+        <text v-else-if="Number(ch.isFree) === 1" class="chapter-tag free">免费</text>
         <text v-else class="chapter-tag paid">{{ fenToYuan(ch.price) }}元</text>
       </view>
     </view>

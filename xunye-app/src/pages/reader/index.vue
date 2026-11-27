@@ -19,12 +19,16 @@
       <!-- 付费锁定态 -->
       <view v-else class="locked-box">
         <text class="locked-icon">🔒</text>
-        <text class="locked-text">本章为付费章节</text>
-        <text class="locked-price">{{ fenToYuan(price) }} 元/章</text>
-        <text class="locked-tip" v-if="Number(isFree) === 0 && Number(isVipFlag) === 1">
-          加入 VIP 可免费读会员书库作品（M4 上线）
-        </text>
-        <view class="locked-btn" @click="onBuyClick">{{buying?'处理中…':'购买本章'}}</view>
+        <text class="locked-text">{{vipRequired?'本书为会员专属':'本章为付费章节'}}</text>
+        <template v-if="vipRequired">
+          <text class="locked-tip">所有章节仅VIP可读，不支持单章购买</text>
+          <view class="locked-btn" @click="goVip">开通 / 续费VIP</view>
+        </template>
+        <template v-else>
+          <text class="locked-price">{{ fenToYuan(price) }} 元/章</text>
+          <view v-if="canPurchase" class="locked-btn" @click="onBuyClick">{{buying?'处理中…':'购买本章'}}</view>
+          <text class="locked-tip" @click="goVip">开通VIP，普通作品全部章节直接读 ›</text>
+        </template>
       </view>
 
       <!-- 章节间导航 -->
@@ -97,6 +101,11 @@ export default {
       content: '',
       locked: false,
       price: 0,
+      originalPrice: 0,
+      discount: 100,
+      vipLibrary: false,
+      vipRequired: false,
+      canPurchase: false,
       isFree: 1,
       isVipFlag: 0,
       chapterIds: [],
@@ -161,6 +170,11 @@ export default {
         this.content = data.content || ''
         this.locked = !!data.locked
         this.price = Number(data.price || 0)
+        this.originalPrice=Number(data.originalPrice||0)
+        this.discount=Number(data.discount||100)
+        this.vipLibrary=!!data.vipLibrary
+        this.vipRequired=!!data.vipRequired
+        this.canPurchase=!!data.canPurchase
         this.isFree = Number(data.isFree)
         this.isVipFlag = data.isVip ? 1 : 0
         uni.setNavigationBarTitle({ title: this.chapterTitle })
@@ -217,8 +231,10 @@ export default {
     goShelf() {
       uni.switchTab({ url: '/pages/shelf/index' })
     },
+    goVip(){uni.navigateTo({url:'/pages/vip/index'})},
     onBuyClick() {
-      if(this.buying||!requireLogin())return
+      if(this.vipRequired){this.goVip();return}
+      if(!this.canPurchase||this.buying||!requireLogin())return
       const id=this.chapterId,price=this.price
       uni.showModal({title:'购买本章',content:'确认使用余额支付 '+fenToYuan(price)+' 元，永久解锁本章？',success:async r=>{
         if(!r.confirm||this.buying||id!==this.chapterId)return

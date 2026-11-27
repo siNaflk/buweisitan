@@ -1,4 +1,5 @@
 package com.xunye.controller.app;
+import com.xunye.constant.AuthConstant;
 import com.xunye.common.Result;
 import com.xunye.dto.req.AuthReqDto;
 import com.xunye.dto.resp.*;
@@ -30,7 +31,7 @@ public class AccountController {
     // 接口：GET /api/app/user/captcha；由Spring根据HTTP方法和路径匹配到下方方法。
     @GetMapping("/captcha")
     public Result<Map<String,String>> captcha(HttpServletRequest request) {
-        captcha.rateLimit("captcha:"+request.getRemoteAddr(),30,300);
+        captcha.rateLimit("captcha:"+request.getRemoteAddr(),AuthConstant.CAPTCHA_IP_LIMIT,AuthConstant.CAPTCHA_WINDOW_SECONDS);
         return Result.ok(captcha.create());
     }
 
@@ -39,7 +40,7 @@ public class AccountController {
     // @RequestBody：将请求体JSON转换为DTO；@Valid触发DTO上的非空、长度、金额范围等校验。
     @PostMapping("/register")
     public Result<LoginRespDto> register(@Valid @RequestBody AuthReqDto req, HttpServletRequest request) {
-        captcha.rateLimit("register:"+request.getRemoteAddr(),10,600);
+        captcha.rateLimit("register:"+request.getRemoteAddr(),AuthConstant.REGISTER_LIMIT,AuthConstant.AUTH_WINDOW_SECONDS);
         return Result.ok(accounts.register(req));
     }
 
@@ -48,7 +49,7 @@ public class AccountController {
     // @RequestBody：将请求体JSON转换为DTO；@Valid触发DTO上的非空、长度、金额范围等校验。
     @PostMapping("/login")
     public Result<LoginRespDto> login(@Valid @RequestBody AuthReqDto req, HttpServletRequest request) {
-        captcha.rateLimit("login:"+request.getRemoteAddr()+":"+req.getPhone(),10,600);
+        captcha.rateLimit("login:"+request.getRemoteAddr()+":"+req.getPhone(),AuthConstant.LOGIN_LIMIT,AuthConstant.AUTH_WINDOW_SECONDS);
         return Result.ok(accounts.login(req));
     }
 

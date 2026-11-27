@@ -7,9 +7,10 @@
     <view class="m2-card">
       <view class="menu" @click="shelf">我的书架 <text>›</text></view>
       <view class="menu" @click="forum">找书社区 <text>›</text></view>
+      <view class="menu" @click="notifications">我的消息 <text class="m2-muted">{{unread?unread+'条未读':''}} ›</text></view>
       <view class="menu" @click="myPosts">我的帖子与审核状态 <text>›</text></view>
       <view class="menu" @click="wallet">充值与钱包 <text class="m2-muted">›</text></view>
-      <view class="menu" @click="future('VIP会员', 'M4')">VIP会员 <text class="m2-muted">M4 ›</text></view>
+      <view class="menu" @click="vip">VIP会员 <text class="m2-muted">{{vipStatus.active?'已开通':'查看权益'}} ›</text></view>
       <view class="menu" @click="future('作家专区', 'M5')">作家专区 <text class="m2-muted">M5 ›</text></view>
     </view>
     <button v-if="user" class="m2-secondary" :loading="busy" :disabled="busy" @click="signOut">退出登录</button>
@@ -18,21 +19,24 @@
 </template>
 <script>
 import { getMe, logout } from '../../api/account'
+import {getVipStatus,getUnreadCount} from '../../api/vip'
 import { tokenStore } from '../../utils/request'
 import { requireLogin } from '../../utils/auth'
 export default {
-  data(){return{user:null,busy:false,error:''}},
+  data(){return{user:null,busy:false,error:'',vipStatus:{active:false},unread:0}},
   async onShow(){
-    this.user=null;this.error=''
+    this.user=null;this.error='';this.vipStatus={active:false};this.unread=0
     if(!tokenStore.get())return
     this.user=uni.getStorageSync('userInfo') || null
-    try{this.user=await getMe();uni.setStorageSync('userInfo',this.user)}catch(e){this.error=e.msg;if(!tokenStore.get())this.user=null}
+    try{this.user=await getMe();uni.setStorageSync('userInfo',this.user);[this.vipStatus,this.unread]=await Promise.all([getVipStatus(),getUnreadCount()]);this.unread=Number(this.unread)||0}catch(e){this.error=e.msg;if(!tokenStore.get())this.user=null}
   },
   methods:{
     openLogin(){if(!this.user)uni.navigateTo({url:'/pages/auth/index'})},
     shelf(){uni.switchTab({url:'/pages/shelf/index'})},
     forum(){uni.switchTab({url:'/pages/forum/index'})},
     wallet(){if(requireLogin())uni.navigateTo({url:'/pages/wallet/index'})},
+    vip(){uni.navigateTo({url:'/pages/vip/index'})},
+    notifications(){if(requireLogin())uni.navigateTo({url:'/pages/notifications/index'})},
     myPosts(){if(requireLogin())uni.navigateTo({url:'/pages/forum/mine'})},
     future(name,m){uni.showToast({title:name+'将在'+m+'开放',icon:'none'})},
     async signOut(){

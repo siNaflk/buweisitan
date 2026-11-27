@@ -33,8 +33,17 @@ public class ChapterContentRespDto implements Serializable {
 
     /** 购买价格（分），locked 时前端展示用 */
     private Long price;
+    /** 标准价格（分）；discount保留兼容，0表示VIP畅读、100表示原价，不再用于会员折扣。 */
+    private Long originalPrice;
+    private Integer discount;
+    /** 作品是否会员书库；决定是否显示开通VIP后畅读入口。 */
+    private Boolean vipLibrary;
+    /** true表示必须开通VIP，前端不能展示单章购买入口。 */
+    private Boolean vipRequired;
+    /** 只有普通作品中被锁定的付费章可单独购买。 */
+    private Boolean canPurchase;
 
-    /** true=无权限阅读，需购买 / false=可读 */
+    /** true=无权限阅读，结合vipRequired决定开通VIP或购章 / false=可读 */
     private Boolean locked;
 
     /** 当前用户是否 VIP（前端展示用，未登录为 false） */

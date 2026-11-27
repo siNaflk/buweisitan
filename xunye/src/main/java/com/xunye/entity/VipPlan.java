@@ -24,10 +24,10 @@ public class VipPlan extends BaseEntity {
     /** 售价（分） */
     private Long price;
 
-    /** 购书折扣，90 表示 9 折 */
+    /** 历史折扣配置，90曾表示九折；当前仅兼容旧数据，VIP阅读不再据此计费。 */
     private Integer discount;
 
-    /** 权益文案，分号分隔 */
+    /** 数据库权益文案（分号分隔）；当前套餐接口统一返回VipConstant中的畅读权益文案。 */
     private String privileges;
 
     /** 排序 */
